@@ -1,4 +1,4 @@
-<form [formGroup]="bookForm" class="ios-screen">
+<form [formGroup]="bookForm" class="ios-screen" (ngSubmit)="saveBook()">
 
     <div class="ios-content">
         <div class="ios-card">
@@ -9,17 +9,41 @@
             <div class="ios-field">
                 <label for="book-name">Titel</label>
                 <input id="book-name" type="text" class="form-control ios-input" formControlName="name"
-                    placeholder="z. B. Clean Code" />
+                    placeholder="Name des Buches"
+                    [class.ios-invalid]="bookForm.controls.name.invalid && (bookForm.controls.name.touched || submitted)" />
+
+                @if (bookForm.controls.name.invalid && (bookForm.controls.name.touched || submitted)) {
+                <div class="ios-hint ios-hint-error">
+                    @if (bookForm.controls.name.errors?.['required']) {
+                    <div>Titel ist erforderlich.</div>
+                    }
+                    @if (bookForm.controls.name.errors?.['minlength']) {
+                    <div>Mindestens 3 Zeichen.</div>
+                    }
+                </div>
+                }
             </div>
 
             <!-- Autor -->
             <div class="ios-field">
                 <label for="book-author">Autor</label>
                 <input id="book-author" type="text" class="form-control ios-input" formControlName="author"
-                    placeholder="z. B. Robert C. Martin" />
+                    placeholder="Name des Authors"
+                    [class.ios-invalid]="bookForm.controls.author.invalid && (bookForm.controls.author.touched || submitted)" />
+
+                @if (bookForm.controls.author.invalid && (bookForm.controls.author.touched || submitted)) {
+                <div class="ios-hint ios-hint-error">
+                    @if (bookForm.controls.author.errors?.['required']) {
+                    <div>Autor ist erforderlich.</div>
+                    }
+                    @if (bookForm.controls.author.errors?.['minlength']) {
+                    <div>Mindestens 3 Zeichen.</div>
+                    }
+                </div>
+                }
             </div>
 
-            <!-- Notiz -->
+            <!-- Notiz (optional, keine Validierung) -->
             <div class="ios-field">
                 <label for="book-note">Notiz</label>
                 <textarea id="book-note" rows="4" class="form-control ios-input" formControlName="note"
