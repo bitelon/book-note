@@ -1,0 +1,43 @@
+<form [formGroup]="bookForm" class="ios-screen">
+
+    <div class="ios-content">
+        <div class="ios-card">
+
+            <h2 class="ios-title">Buch</h2>
+
+            <!-- Titel -->
+            <div class="ios-field">
+                <label for="book-name">Titel</label>
+                <input id="book-name" type="text" class="form-control ios-input" formControlName="name"
+                    placeholder="z. B. Clean Code" />
+            </div>
+
+            <!-- Autor -->
+            <div class="ios-field">
+                <label for="book-author">Autor</label>
+                <input id="book-author" type="text" class="form-control ios-input" formControlName="author"
+                    placeholder="z. B. Robert C. Martin" />
+            </div>
+
+            <!-- Notiz -->
+            <div class="ios-field">
+                <label for="book-note">Notiz</label>
+                <textarea id="book-note" rows="4" class="form-control ios-input" formControlName="note"
+                    placeholder="Optional: kurze Notiz…"></textarea>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bottom Buttons -->
+    <div class="ios-actions">
+        <button type="submit" class="btn ios-btn-primary w-100">
+            Save
+        </button>
+
+        <button type="button" class="btn ios-btn-secondary w-100">
+            Cancel
+        </button>
+    </div>
+
+</form>
