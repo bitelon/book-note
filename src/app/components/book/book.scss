@@ -155,10 +155,20 @@ $radius: 24px;
     color: #fff;
 }
 
+.ios-btn-primary:active {
+    background: darken($ios-blue, 6%);
+    transform: scale(0.98);
+}
+
 .ios-btn-secondary {
     background: #e5e5ea;
     border: 1px solid rgba(0, 0, 0, 0.08);
     color: rgba(0, 0, 0, 0.85);
+}
+
+.ios-btn-secondary:active {
+    background: rgba(0, 0, 0, 0.08);
+    transform: scale(0.98);
 }
 
 .ios-hint {
