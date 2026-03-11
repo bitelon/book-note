@@ -1,67 +1,59 @@
-<form [formGroup]="bookForm" class="ios-screen" (ngSubmit)="saveBook()">
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Abbrechen</ion-button>
+        </ion-buttons>
+        <ion-title>{{ isEditMode() ? 'Buch bearbeiten' : 'Buch hinzufügen' }}</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="saveBook()" [strong]="true">Speichern</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
 
-    <div class="ios-content">
-        <div class="ios-card">
-
-            <h2 class="ios-title">Buch</h2>
+<ion-content>
+    <form [formGroup]="bookForm">
+        <ion-list inset>
 
             <!-- Titel -->
-            <div class="ios-field">
-                <label for="book-name">Titel</label>
-                <input id="book-name" type="text" class="form-control ios-input" formControlName="name"
-                    placeholder="Name des Buches"
-                    [class.ios-invalid]="bookForm.controls.name.invalid && (bookForm.controls.name.touched || submitted)" />
-
-                @if (bookForm.controls.name.invalid && (bookForm.controls.name.touched || submitted)) {
-                <div class="ios-hint ios-hint-error">
-                    @if (bookForm.controls.name.errors?.['required']) {
-                    <div>Titel ist erforderlich.</div>
-                    }
-                    @if (bookForm.controls.name.errors?.['minlength']) {
-                    <div>Mindestens 3 Zeichen.</div>
-                    }
-                </div>
-                }
-            </div>
+            <ion-item [class.ion-invalid]="bookForm.controls.name.invalid && (bookForm.controls.name.touched || submitted)"
+                      [class.ion-touched]="bookForm.controls.name.touched || submitted">
+                <ion-input label="Titel" labelPlacement="stacked" formControlName="name"
+                    placeholder="Name des Buches" />
+            </ion-item>
+            @if (bookForm.controls.name.errors?.['required'] && (bookForm.controls.name.touched || submitted)) {
+                <ion-note color="danger" class="ion-padding-horizontal ion-padding-bottom">
+                    Titel ist erforderlich.
+                </ion-note>
+            }
+            @if (bookForm.controls.name.errors?.['minlength'] && (bookForm.controls.name.touched || submitted)) {
+                <ion-note color="danger" class="ion-padding-horizontal ion-padding-bottom">
+                    Mindestens 3 Zeichen.
+                </ion-note>
+            }
 
             <!-- Autor -->
-            <div class="ios-field">
-                <label for="book-author">Autor</label>
-                <input id="book-author" type="text" class="form-control ios-input" formControlName="author"
-                    placeholder="Name des Authors"
-                    [class.ios-invalid]="bookForm.controls.author.invalid && (bookForm.controls.author.touched || submitted)" />
+            <ion-item [class.ion-invalid]="bookForm.controls.author.invalid && (bookForm.controls.author.touched || submitted)"
+                      [class.ion-touched]="bookForm.controls.author.touched || submitted">
+                <ion-input label="Autor" labelPlacement="stacked" formControlName="author"
+                    placeholder="Name des Autors" />
+            </ion-item>
+            @if (bookForm.controls.author.errors?.['required'] && (bookForm.controls.author.touched || submitted)) {
+                <ion-note color="danger" class="ion-padding-horizontal ion-padding-bottom">
+                    Autor ist erforderlich.
+                </ion-note>
+            }
+            @if (bookForm.controls.author.errors?.['minlength'] && (bookForm.controls.author.touched || submitted)) {
+                <ion-note color="danger" class="ion-padding-horizontal ion-padding-bottom">
+                    Mindestens 3 Zeichen.
+                </ion-note>
+            }
 
-                @if (bookForm.controls.author.invalid && (bookForm.controls.author.touched || submitted)) {
-                <div class="ios-hint ios-hint-error">
-                    @if (bookForm.controls.author.errors?.['required']) {
-                    <div>Autor ist erforderlich.</div>
-                    }
-                    @if (bookForm.controls.author.errors?.['minlength']) {
-                    <div>Mindestens 3 Zeichen.</div>
-                    }
-                </div>
-                }
-            </div>
+            <!-- Notiz -->
+            <ion-item>
+                <ion-textarea label="Notiz" labelPlacement="stacked" formControlName="note"
+                    placeholder="Optional: kurze Notiz…" [rows]="5" [autoGrow]="true" />
+            </ion-item>
 
-            <!-- Notiz (optional, keine Validierung) -->
-            <div class="ios-field">
-                <label for="book-note">Notiz</label>
-                <textarea id="book-note" rows="4" class="form-control ios-input" formControlName="note"
-                    placeholder="Optional: kurze Notiz…"></textarea>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Bottom Buttons -->
-    <div class="ios-actions">
-        <button type="submit" class="btn ios-btn-primary w-100">
-            Save
-        </button>
-
-        <button type="button" class="btn ios-btn-secondary w-100">
-            Cancel
-        </button>
-    </div>
-
-</form>
+        </ion-list>
+    </form>
+</ion-content>

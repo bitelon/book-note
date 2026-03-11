@@ -1,23 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
+import { IonItem, IonLabel, IonButton, IonIcon } from '@ionic/angular/standalone';
+import { trashOutline } from 'ionicons/icons';
+import { BookDto } from '../../dto/bookDto';
 
 @Component({
   selector: 'book-list-item',
-  imports: [],
+  imports: [IonItem, IonLabel, IonButton, IonIcon],
   templateUrl: './book-note.html',
   styleUrl: './book-note.scss',
 })
 export class BookNote {
-    title : string = 'BuchTitel';
-    author: string = 'BuchAuthor';
-    constructor() {
-      
-    }
+  book = input.required<BookDto>();
+  readonly trashOutline = trashOutline;
 
-    open() {
-      console.log('open form');
-    }
-    delete(event: Event) {
-      event.stopPropagation();
-      console.log('delete entry');
-    }
+  openEvent = output<BookDto>();
+  deleteEvent = output<string>();
+
+  open() {
+    this.openEvent.emit(this.book());
+  }
+
+  delete(event: Event) {
+    event.stopPropagation();
+    this.deleteEvent.emit(this.book().id);
+  }
 }
