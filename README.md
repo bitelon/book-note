@@ -1,5 +1,91 @@
 # BookNote
 
+Eine mobile App (Android/iOS) zum Erfassen gelesener Bücher mit Titel, Autor und Notizen. Gebaut mit Angular + Ionic Framework.
+
+## Architektur
+
+### Technologie-Entscheidungen
+- **Angular + Ionic**: Hybrid-App im WebView, eine Codebase für Android und iOS
+- **Ionic Preferences (Key-Value Storage)**: Lokale Datenpersistenz auf dem Gerät
+- **Smart/Dumb Component Pattern**: `BookListComponent` als Controller, Formular und Listenelement als zustandslose Komponenten
+
+### Komponentendiagramm
+
+```mermaid
+classDiagram
+    class BookModel {
+        +string id
+        +string title
+        +string author
+        +string notes
+    }
+
+    class BookListComponent {
+        -BookModel[] books
+        +loadBooks()
+        +onAddNew()
+        +onEntryClicked(book: BookModel)
+        +onSave(book: BookModel)
+        +onDelete(id: string)
+    }
+
+    class EntryComponent {
+        <<Dumb Component>>
+        +Input BookModel book
+        +Output clicked EventEmitter
+        +Output deleted EventEmitter
+    }
+
+    class BookComponent {
+        <<Dumb Component>>
+        +Input BookModel book
+        +Output save EventEmitter
+        +Output cancel EventEmitter
+        -FormGroup form
+        +validateForm()
+    }
+
+    class BookService {
+        +getAll() BookModel[]
+        +save(book: BookModel)
+        +edit(id: string, book: BookModel)
+        +delete(id: string)
+    }
+
+    class LocalStorageService {
+        +get(key: string)
+        +set(key: string, value: any)
+        +remove(key: string)
+    }
+
+    BookListComponent --> BookService : uses
+    BookListComponent "1" *-- "n" EntryComponent : contains
+    BookListComponent ..> BookComponent : opens as Modal
+    BookService --> LocalStorageService : uses
+    BookListComponent ..> BookModel : holds list
+    BookComponent ..> BookModel : Input/Output
+    EntryComponent ..> BookModel : Input
+```
+
+### Komponentenbeschreibungen
+
+**`BookListComponent`** - Smart Component / Controller
+Lädt alle Bücher beim Start, orchestriert alle Aktionen (Add, Edit, Delete), empfängt Events von Child-Komponenten und delegiert an den `BookService`.
+
+**`EntryComponent`** - Dumb Component
+Zeigt einen einzelnen Bucheintrag an, unterstützt Swipe-Delete (`ion-item-sliding`), gibt Klick- und Delete-Events nach oben weiter - kennt keine Services.
+
+**`BookComponent`** - Dumb Component
+Reaktives Formular für Titel, Autor und Notiz. Funktioniert für neu Erstellen und Bearbeiten (je nach übergebenem Input). Gibt nur Events zurück - kennt keine Services.
+
+**`BookService`** - Facade
+Einzige Schnittstelle für Komponenten zur Datenhaltung. Enthält die Geschäftslogik (z.B. ID-Generierung beim Speichern).
+
+**`LocalStorageService`** - Infrastruktur
+Kapselt den direkten Zugriff auf den Ionic Preferences/Storage. Kennt keine fachlichen Konzepte.
+
+---
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
 
 ## Development server
