@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Book Note</string>
+    <string name="title_activity_main">Book Note</string>
+    <string name="package_name">com.danieltrivicevic.booknote</string>
+    <string name="custom_url_scheme">com.danieltrivicevic.booknote</string>
+</resources>
